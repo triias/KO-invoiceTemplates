@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pay up front</title>
+    <!-- <link rel="stylesheet" type="text/css" href="./style.css" /> -->
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            font-weight: 500;
+            font-size: 8px;
+            color: rgb(103, 103, 103);
+            -webkit-print-color-adjust: exact;
+            box-sizing: border-box;
+        }
+        
+        h {
+            font-weight: 700;
+        }
+        
+        .page {
+            margin: auto;
+            margin-top: 100px;
+            padding: 40mm 25mm;
+            /* box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15); */
+        }
+        
+        section {
+            padding-bottom: 5mm;
+        }
+        
+        @media print {
+            .page {
+                padding: 0;
+                margin: 0;
+            }
+        }
+        
+        .small {
+            font-size: 7px;
+        }
+        
+        .centered {
+            text-align: center;
+        }
+        
+        .stack {
+            display: flex;
+            display: -webkit-flex;
+        }
+        
+        .text-block {
+            width: 100%;
+            padding-left: 3px;
+            padding-right: 3px;
+        }
+        
+        .divider {
+            border-left: 1px solid #def3ff;
+        }
+        
+        .rate {
+            flex-wrap: nowrap;
+            -ms-flex-wrap: nowrap;
+        }
+        
+        .text-block :last-of-type {
+            padding-right: 0;
+        }
+        
+        .text-block :first-of-type {
+            padding-left: 0;
+        }
+        
+        .text-block-header {
+            height: 4mm;
+        }
+        
+        .due-line {
+            line-height: 20px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .footer {
+            padding-top: 25px;
+        }
+        
+        .right-aligned {
+            text-align: right;
+        }
+        
+        .light-grey {
+            /* color: rgb(140, 140, 140); */
+            color: #b7b7b7;
+        }
+        
+        .blanc {
+            height: 15px;
+        }
+        
+        table {
+            width: 100%;
+            border-spacing: 0;
+            line-height: 15px;
+            text-align: center;
+            page-break-inside: avoid;
+        }
+        
+        th {
+            background-color: #69c0ff;
+            color: white;
+            font-weight: 800;
+        }
+        
+        td {
+            border-bottom: 1px solid #def3ff;
+        }
+        
+        tr :last-child {
+            text-align: right;
+            padding-right: 10px;
+        }
+    </style>
+</head>
+
+<!-- <body> -->
+
+<body onload="{renderHello(templateData)}">
+    <div id="target">Loading...</div>
+    <script id="template" type="x-tmpl-mustache">
+        <div class="page">
+            <section>
+                <div class="small">{{organisation.name}} - {{organisation.address.street}} - {{organisation.address.zip}} {{organisation.address.city}}</div>
+                <div class="stack">
+                    <div class='text-block'>
+                        <h1 class='text-block-header'></h1>
+                        <div>{{booker.firstName}} {{booker.lastName}}</div>
+                        <div>{{booker.address.street}}</div>
+                        <div>{{booker.address.zip}} {{booker.address.city}}</div>
+                    </div>
+                    <div class='text-block'></div>
+                    <div class='text-block'>
+                        <h1 class='text-block-header'>Rechnungs-Nr.</h1>
+                        <div>Rechnungsdatum</div>
+                        <div>Ihre Kundennummer</div>
+                        <div>Ihr Ansprechpartner</div>
+                    </div>
+                    <div class='text-block right-aligned'>
+                        <h1 class='text-block-header'>{{invoice.invoiceNumber}}</h1>
+                        <div>{{invoice.dateOfInvoicing}}</div>
+                        <div>{{booker.customerNumber}}</div>
+                        <div>{{contactPerson}}</div>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <h1>Rechnung
+                    <h1/>
+                    <h3 class='light-grey'>{{course.courseTypeName}} {{course.courseNumber}}</h3>
+                    <section>
+                        <p>
+                            {{headerText}}
+                        </p>
+                        </section/>
+                        <section>
+                            <table>
+                                <tr>
+                                    <th>Kurseinheit</th>
+                                    <th>Wochentag</th>
+                                    <th>Datum</th>
+                                    <th>Kurszeiten</th>
+                                    <th>Preis</th>
+                                </tr>
+                                {{#course.lessons}}
+                                <tr>
+                                    <td>{{num}}. Kurseinheit</td>
+                                    <td>{{dow}}</td>
+                                    <td>{{date}}</td>
+                                    <td>{{start}} - {{end}}</td>
+                                    <td>{{cross}} €</td>
+                                </tr>
+                                {{/course.lessons}}
+                                <tr>
+                                    <td class='blanc' />
+                                    <td class='blanc' />
+                                    <td class='blanc' />
+                                    <td class='blanc' />
+                                    <td class='blanc' />
+                                </tr>
+                                <tr>
+                                    <td>inkl. {{course.vat}}% MwSt.</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>{{course.vatAmount}} €</td>
+                                </tr>
+                                <tr>
+                                    <th>Gesamtbetrag</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th>{{course.totalAmountCross}} €</th>
+                                </tr>
+                            </table>
+                            <div class=' due-line light-grey right-aligned small'>Zahlbar bis {{invoice.dueDate}} </div>
+                        </section>
+                        <p>
+                            {{footerText}}
+                        </p>
+                        <p>
+                            {{signatureText}}
+                        </p>
+                    </section>
+                    <div id="pageFooter">
+                        <div class='footer'>
+                            <div class="stack light-grey">
+                                <!-- <div class='text-block divider'>
+                                                                                                                                        <div>{{organisation.name}}</div>
+                                                                                                                                        <div>{{organisation.address.street}}</div>
+                                                                                                                                        <div>{{organisation.address.zip}} {{organisation.address.city}}</div>
+                                                                                                                                        <div></div>
+                                                                                                                                    </div> -->
+                                <div class='text-block divider'>
+                                    <div>Kontakt:</div>
+                                    <div>Tel.: {{organisation.phone}}</div>
+                                    <div>E-Mail.: {{organisation.email}}</div>
+                                    <div>Web: {{organisation.website}}</div>
+                                    <div></div>
+                                </div>
+                                <div class='text-block divider'>
+                                    <div>{{organisation.localCourt}}</div>
+                                    <div>Ust.-ID: {{organisation.taxId}}</div>
+                                    <div>Steuer-Nr.: {{organisation.taxNumber}}</div>
+                                    <div>Inhaberin: {{organisation.owner.first}} {{organisation.owner.last}}</div>
+                                </div>
+                                <div class='text-block divider'>
+                                    <div>Konto: {{organisation.bankAccount.accountNumber}}</div>
+                                    <div>BLZ: {{organisation.bankAccount.BLZ}}</div>
+                                    <div>IBAN: {{organisation.bankAccount.IBAN}}</div>
+                                    <div>BIC: {{organisation.bankAccount.BIC}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="centered light-grey small">
+                            <span>{{page}}</span>/<span>{{pages}}</span>
+                        </div>
+
+                    </div>
+
+        </div>
+    </script>
+    <script src="invoiceUpFrontData.js"></script>
+    <script src="https://unpkg.com/mustache@latest"></script>
+    <script src="render.js"></script>
+</body>
+<!-- </body> -->
+
+</html>

@@ -7,10 +7,6 @@ var templateDataObject = {
         logo: 'logo',
         logoimg: '../../images/logo.jpg',
         name: 'Die kleine Schwimmschule',
-        owner: {
-            first: 'Gaby',
-            last: 'Schünemann',
-        },
         address: {
             street: 'Bulachstraße 8',
             zip: '85232 ',
@@ -21,8 +17,8 @@ var templateDataObject = {
         email: 'info@kleine-schwimmschule.de',
         website: 'www.kleine-schwimmschule.de',
         bankAccount: {
-            accountNumber: 'DE 8908 8990 2376 092',
-            BLZ: 'GEN 7278 7266 365',
+            accountOwner: 'Max Mustermann',
+            bank: 'Cyber-Bank',
             IBAN: 'DE05 1001 1001 2629 4985 19',
             BIC: 'NTSBDEB1XXX',
         },
@@ -36,6 +32,7 @@ var templateDataObject = {
         invoiceNumber: 'RE-10181',
         dateOfInvoicing: '22.11.2020',
         dueDate: '01.12.2020',
+        paymentMethod: 'Bankeinzug',
     },
     booker: {
         customerNumber: 'K-93288',
@@ -60,13 +57,15 @@ var templateDataObject = {
         courseTypeName: 'Pingu-Schwimmkurs',
         courseNumber: 'PIK-100049',
         firstLesson: '24.11.2020',
-        rates: [{
+        rates: [
+            {
                 dueDate: '01.12.2020',
                 amount: 60,
                 month: 'November',
-                lessons: [{
+                lessons: [
+                    {
                         num: 1,
-                        date: '24.11.2020',
+                        date: '17.11.2020',
                         start: '17:30',
                         end: '19:00',
                         dow: 'Dienstag',
@@ -74,14 +73,14 @@ var templateDataObject = {
                     },
                     {
                         num: 2,
-                        date: '17.11.2020',
+                        date: '24.11.2020',
                         start: '17:30',
                         end: '19:00',
                         dow: 'Dienstag',
                         cross: 30,
                     },
                 ],
-                vatAmount: function() {
+                vatAmount: function () {
                     return pad((this.amount * templateDataObject.course.vat) / 100)
                 },
             },
@@ -89,7 +88,8 @@ var templateDataObject = {
                 dueDate: '01.01.2021',
                 amount: 150,
                 month: 'Dezember',
-                lessons: [{
+                lessons: [
+                    {
                         num: 3,
                         date: '01.12.2020',
                         start: '17:30',
@@ -130,15 +130,16 @@ var templateDataObject = {
                         cross: 30,
                     },
                 ],
-                vatAmount: function() {
-                    return pad((this.amount * templateDataObject.course.vat) / 100)
+                vatAmount: function () {
+                    return pad((this.amount * templateDataObject.course.vat) / 100).toFixed(2)
                 },
             },
             {
                 dueDate: '01.02.2021',
                 amount: 120,
                 month: 'Januar',
-                lessons: [{
+                lessons: [
+                    {
                         num: 8,
                         date: '05.01.2021',
                         start: '17:30',
@@ -171,25 +172,26 @@ var templateDataObject = {
                         cross: 30,
                     },
                 ],
-                vatAmount: function() {
-                    return pad((this.amount * templateDataObject.course.vat) / 100)
+                vatAmount: function () {
+                    return pad((this.amount * templateDataObject.course.vat) / 100).toFixed(2)
                 },
             },
         ],
         totalAmountCross: 330,
-        vatAmount: function() {
-            return pad((this.course.totalAmountCross * this.course.vat) / 100)
+        vatAmount: function () {
+            return pad((this.course.totalAmountCross * this.course.vat) / 100).toFixed(2)
         },
         vat: 16,
     },
     subject: 'Buchungsbestätigung',
     //headerText: `Hallo `${function () {return 'hi'}} `{{booker.lastName}},\nherzlichen Dank für Deine Anmeldung bei {{organisation.name}}\nBald ghet es für{{attendee.firstName}} {{attendee.lastName}} los!`,
-    headerText: function() {
+    headerText: function () {
         return (
             'Hallo ' +
             this.booker.firstName +
             ' ' +
             this.booker.lastName +
+            ',\n' +
             'herzlichen Dank für Deine Anmeldung bei ' +
             this.organisation.name +
             '. ' +
@@ -197,11 +199,11 @@ var templateDataObject = {
             this.attendee.firstName +
             ' ' +
             this.attendee.lastName +
-            ' !'
+            '!'
         )
     },
-    footerText: 'Bitte beachte, dass wir in einigen Bädern in den Schulferien nicht schwimmtn. Bitte beachte auch unsere Allgemeinen Geschäftsbedingungen und unsere Widerrufsbelehrung und die EInwilligungserklärung für Fotoaufnahmen während des Kurses.',
-    signatureText: 'Danke und ein herzliches Servus \n Deine kleine Schwimmschule',
+    footerText: 'Wir wünschen dir und deinem Kind viel Spaß und Erfolg im Kurs.',
+    signatureText: 'Mit freundlichen Grüßen\nDein Team von',
 }
 
 var templateData = templateDataObject

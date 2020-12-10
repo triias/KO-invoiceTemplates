@@ -23,11 +23,14 @@
             font-weight: 700;
         }
         
+        p {
+            white-space: pre-line;
+        }
+        
         .page {
             margin: auto;
             margin-top: 100px;
-            padding: 40mm 25mm;
-            /* box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15); */
+            padding: 40mm 15mm 10mm 15mm;
         }
         
         section {
@@ -58,6 +61,19 @@
             width: 100%;
             padding-left: 3px;
             padding-right: 3px;
+            /* display: flex; */
+            /* flex-direction: column;
+                flex: 2; */
+        }
+        
+        .spacer {
+            flex-grow: 1;
+            /* height: 25%; */
+        }
+        
+        .smaller {
+            /* flex: 1; */
+            width: 50%;
         }
         
         .divider {
@@ -83,8 +99,9 @@
         
         .due-line {
             line-height: 20px;
-            margin-right: 10px;
-            margin-bottom: 10px;
+            margin: -2px 11px 10px 11px;
+            display: flex;
+            display: -webkit-flex;
         }
         
         .footer {
@@ -93,11 +110,17 @@
         
         .right-aligned {
             text-align: right;
+            margin-left: auto;
+        }
+        
+        .left-aligned {
+            text-align: left;
+            margin-right: auto;
         }
         
         .light-grey {
             /* color: rgb(140, 140, 140); */
-            color: #b7b7b7;
+            color: #9d9d9d;
         }
         
         .blanc {
@@ -149,13 +172,11 @@
                         <h1 class='text-block-header'>Rechnungs-Nr.</h1>
                         <div>Rechnungsdatum</div>
                         <div>Ihre Kundennummer</div>
-                        <div>Ihr Ansprechpartner</div>
                     </div>
                     <div class='text-block right-aligned'>
                         <h1 class='text-block-header'>{{invoice.invoiceNumber}}</h1>
                         <div>{{invoice.dateOfInvoicing}}</div>
                         <div>{{booker.customerNumber}}</div>
-                        <div>{{contactPerson}}</div>
                     </div>
                 </div>
             </section>
@@ -204,7 +225,6 @@
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <!-- <td>{{amount}} * {{course.vat}} /100 €</td> -->
                                         <td>{{vatAmount}} €</td>
 
                                     </tr>
@@ -216,48 +236,47 @@
                                         <th>{{amount}} €</th>
                                     </tr>
                                 </table>
-                                <div class=' due-line light-grey right-aligned small'>Zahlbar bis {{dueDate}} </div>
+                                <div class=' due-line light-grey small'>
+                                    <div class='left-aligned'>Deine gewählte Zahlart: {{invoice.paymentMethod}} </div>
+                                    <div class='right-aligned'>Zahlbar bis {{dueDate}} </div>
+                                </div>
                             </div>
                             {{/course.rates}}
-                            <!-- ////// -->
                         </section>
                         <p>
                             {{footerText}}
                         </p>
                         <p>
                             {{signatureText}}
+                            <br/> {{organisation.name}}
                         </p>
+
                     </section>
                     <div id="pageFooter">
+                        <p class='small light-grey'>Diese Rechnung wurde elektronisch erstellt und ist auch ohne Unterschrift gültig.</p>
                         <div class='footer'>
                             <div class="stack light-grey">
-                                <!-- <div class='text-block divider'>
-                                                                                                                                                                                                                                                                                                                                                                                                    <div>{{organisation.name}}</div>
-                                                                                                                                                                                                                                                                                                                                                                                                    <div>{{organisation.address.street}}</div>
-                                                                                                                                                                                                                                                                                                                                                                                                    <div>{{organisation.address.zip}} {{organisation.address.city}}</div>
-                                                                                                                                                                                                                                                                                                                                                                                                    <div></div>
-                                                                                                                                                                                                                                                                                                                                                                                                </div> -->
                                 <div class='text-block divider'>
-                                    <div>Kontakt:</div>
-                                    <div>Tel.: {{organisation.phone}}</div>
-                                    <div>E-Mail.: {{organisation.email}}</div>
-                                    <div>Web: {{organisation.website}}</div>
-                                    <div></div>
-                                </div>
-                                <div class='text-block divider'>
-                                    <div>{{organisation.localCourt}}</div>
-                                    <div>Ust.-ID: {{organisation.taxId}}</div>
-                                    <div>Steuer-Nr.: {{organisation.taxNumber}}</div>
-                                    <div>Inhaberin: {{organisation.owner.first}} {{organisation.owner.last}}</div>
-                                </div>
-                                <div class='text-block divider'>
-                                    <div>Konto: {{organisation.bankAccount.accountNumber}}</div>
-                                    <div>BLZ: {{organisation.bankAccount.BLZ}}</div>
+                                    <div>{{organisation.bankAccount.accountOwner}}</div>
+                                    <div>Bank/Institut: {{organisation.bankAccount.bank}}</div>
                                     <div>IBAN: {{organisation.bankAccount.IBAN}}</div>
                                     <div>BIC: {{organisation.bankAccount.BIC}}</div>
                                 </div>
+                                <div class='text-block divider'>
+                                    <div class='spacer'></div>
+                                    <div>Tel.: {{organisation.phone}}</div>
+                                    <div>E-Mail.: {{organisation.email}}</div>
+                                    <div>Web: {{organisation.website}}</div>
+                                </div>
+                                <div class='text-block divider smaller'>
+                                    <div class='spacer'></div>
+                                    <div>Ust.-ID: {{organisation.taxId}}</div>
+                                    <div>Steuer-Nr.: {{organisation.taxNumber}}</div>
+                                </div>
+
                             </div>
                         </div>
+
                         <div class="centered light-grey small">
                             <span>{{page}}</span>/<span>{{pages}}</span>
                         </div>

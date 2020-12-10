@@ -2,7 +2,7 @@ const fs = require('fs')
 const http = require('http')
 const pdf = require('../../')
 const path = require('path')
-    // Available templates
+// Available templates
 const upFront = fs.readFileSync(require.resolve('../templates/invoiceUpFront.html'), 'utf8')
 const instalment = fs.readFileSync(require.resolve('../templates/invoiceInstalment.html'), 'utf8')
 
@@ -20,13 +20,13 @@ const config = {
     renderDelay: 3000,
     border: {
         top: '40mm', // default is 0, units: mm, cm, in, px
-        right: '20mm',
+        right: '15mm',
         bottom: '10mm',
-        left: '20mm',
+        left: '15mm',
     },
 }
 
-const server = http.createServer(function(req, res) {
+const server = http.createServer(function (req, res) {
     if (req.url === '/favicon.ico') return res.end('404')
     pdf.create(tmpl, config).toStream((err, stream) => {
         if (err) return res.end(err.stack)
@@ -35,7 +35,7 @@ const server = http.createServer(function(req, res) {
     })
 })
 
-server.listen(8080, function(err) {
+server.listen(8080, function (err) {
     if (err) throw err
     console.log('Listening on http://localhost:%s', server.address().port)
 })
